@@ -1,0 +1,29 @@
+<canvas id="canvas"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/svg.js@3.1.1/dist/svg.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    // Load the image
+    const image = new Image();
+    image.src = 'URL_TO_YOUR_IMAGE.jpg';
+    image.onload = () => {
+      // Set the canvas dimensions to match the image size
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      // Draw the image on the canvas
+      context.drawImage(image, 0, 0);
+
+      // Convert the image to vector using SVG.js
+      const svgCanvas = SVG().addTo('#canvas').size(canvas.width, canvas.height);
+      const path = svgCanvas.image(image.src, image.width, image.height).toPath();
+
+      // Render the vector path on the canvas
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#000'; // Set the fill color
+      context.fill(new Path2D(path));
+    };
+  });
+</script>
